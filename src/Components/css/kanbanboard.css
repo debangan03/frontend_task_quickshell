@@ -123,6 +123,7 @@ header{
   left: 0;
   width: 100%;
   z-index: 60;
+  top: 0px;
 }
 
 
@@ -132,6 +133,7 @@ header{
 
 /* Main grid container */
 .main-grid {
+  margin-top: 40px;
   display: grid;
   /* Equivalent to p-4 */
   gap: 1rem; /* Equivalent to gap-4 */
