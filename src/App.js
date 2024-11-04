@@ -1,10 +1,11 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.css"; // Import the CSS file
 import KanbanBoard from "./Components/KanbanBoard";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [apiData, setapiData] = useState({});
+  const [apiData, setApiData] = useState({});
+
   const fetchApi = async () => {
     // API call logic here
     const res = await fetch(
@@ -13,14 +14,15 @@ function App() {
     const data = await res.json();
     console.log(data);
     
-    setapiData(data);
+    setApiData(data);
   };
+
   useEffect(() => {
     fetchApi();
   }, []);
 
   return (
-    <div className="App min-h-screen max-w-screen bg-slate-200 overflow-x-hidden">
+    <div className="App">
       <KanbanBoard Data={apiData} />
     </div>
   );

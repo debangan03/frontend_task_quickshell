@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import CategoryTemplate from "./CategoryTemplate";
 import displayicon from "../Icons/Display.svg";
 import downicon from "../Icons/down.svg";
+import "./css/kanbanboard.css"; // Import the CSS file
 
 function KanbanBoard({ Data }) {
   const [FilterOptions, setFilterOptions] = useState(false);
   const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState([]);
-  const [groupBy, setGroupBy] = useState("status"); // Grouping criteria state
-  const [orderBy, setOrderBy] = useState("priority"); // Ordering criteria state
+  const [groupBy, setGroupBy] = useState("status");
+  const [orderBy, setOrderBy] = useState("priority");
 
   useEffect(() => {
     if (Data) {
@@ -29,48 +30,8 @@ function KanbanBoard({ Data }) {
     setOrderBy(e.target.value);
   };
 
-  //   const groupedTickets = () => {
-  //     const groups = {};
-
-  //     tickets.forEach((ticket) => {
-  //       let key;
-  //       switch (groupBy) {
-  //         case "status":
-  //           key = ticket.status.toLowerCase();
-  //           break;
-  //         case "user":
-  //           key = ticket.assignedUser || "unassigned"; // Group by user or 'unassigned' if no user
-  //           break;
-  //         case "priority":
-  //           key = ticket.priority; // Group by priority level
-  //           break;
-  //         default:
-  //           key = ticket.status.toLowerCase();
-  //       }
-
-  //       if (!groups[key]) {
-  //         groups[key] = [];
-  //       }
-  //       groups[key].push(ticket);
-  //     });
-
-  //     // Sort tickets within each group based on selected ordering criteria
-  //     Object.keys(groups).forEach((group) => {
-  //       groups[group].sort((a, b) => {
-  //         if (orderBy === "priority") {
-  //           return b.priority - a.priority; // Higher priority first
-  //         } else if (orderBy === "title") {
-  //           return a.title.localeCompare(b.title); // Alphabetical order
-  //         }
-  //         return 0;
-  //       });
-  //     });
-
-  //     return groups;
-  //   };
-
   const groupedTickets = () => {
-    if (!tickets || tickets.length === 0) return {}; // Return an empty object if tickets are undefined or empty
+    if (!tickets || tickets.length === 0) return {};
 
     const groups = {};
 
@@ -81,10 +42,10 @@ function KanbanBoard({ Data }) {
           key = ticket.status.toLowerCase();
           break;
         case "user":
-          key = ticket.userId || "unassigned"; // Group by user or 'unassigned' if no user
+          key = ticket.userId || "unassigned";
           break;
         case "priority":
-          key = ticket.priority; // Group by priority level
+          key = ticket.priority;
           break;
         default:
           key = ticket.status.toLowerCase();
@@ -93,29 +54,21 @@ function KanbanBoard({ Data }) {
       if (!groups[key]) {
         groups[key] = [];
       }
-      
       groups[key].push(ticket);
-      if(groups["todo"]==null && groupBy=="status") {
-        groups["todo"] = [];
-      }
-      if(groups["in progress"]==null && groupBy=="status") {
-        groups["in progress"] = [];
-      }if(groups["backlog"]==null && groupBy=="status") {
-        groups["backlog"] = [];
-      }if(groups["done"]==null && groupBy=="status") {
-        groups["done"] = [];
-      }if(groups["cancelled"]==null && groupBy=="status") {
-        groups["cancelled"] = [];
-      }
+      // Ensure all status groups exist
+      ["todo", "in progress", "backlog", "done", "cancelled"].forEach(status => {
+        if (!groups[status] && groupBy === "status") {
+          groups[status] = [];
+        }
+      });
     });
 
-    // Sort tickets within each group based on selected ordering criteria
     Object.keys(groups).forEach((group) => {
       groups[group].sort((a, b) => {
         if (orderBy === "priority") {
-          return b.priority - a.priority; // Higher priority first
+          return b.priority - a.priority;
         } else if (orderBy === "title") {
-          return a.title.localeCompare(b.title); // Alphabetical order
+          return a.title.localeCompare(b.title);
         }
         return 0;
       });
@@ -182,11 +135,11 @@ function KanbanBoard({ Data }) {
       </header>
 
       {/* Main Kanban Board */}
-      <main className="p-4 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {Object.entries(groupedTickets()).map(([group, tickets]) => (
-          <CategoryTemplate key={group} title={group} tickets={tickets} />
-        ))}
-      </main>
+      <main className="main-grid">
+      {Object.entries(groupedTickets()).map(([group, tickets]) => (
+        <CategoryTemplate key={group} title={group} tickets={tickets} />
+      ))}
+    </main>
     </div>
   );
 }
