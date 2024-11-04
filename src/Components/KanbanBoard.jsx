@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
 import CategoryTemplate from "./CategoryTemplate";
-import displayicon from "../Icons/Display.svg";
-import downicon from "../Icons/down.svg";
+import displayicon from "../assets/Icons/Display.svg";
+import downicon from "../assets/Icons/down.svg";
 import "./css/kanbanboard.css"; // Import the CSS file
 
-function KanbanBoard({ Data }) {
+function KanbanBoard({ Data}) {
   const [FilterOptions, setFilterOptions] = useState(false);
   const [tickets, setTickets] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState({});
   const [groupBy, setGroupBy] = useState("status");
   const [orderBy, setOrderBy] = useState("priority");
 
   useEffect(() => {
     if (Data) {
+      let umap={};
       setTickets(Data.tickets);
-      setUsers(Data.users);
+      Data.users?.map((item)=>umap[item.id]=item);
+      setUsers(umap);
     }
+    console.log(users);
+    
   }, [Data]);
 
   const toggleOptions = () => {
@@ -79,10 +83,11 @@ function KanbanBoard({ Data }) {
 
   return (
     <div className="relative w-full h-full">
+      {/* filter form */}
       {FilterOptions && (
         <div
           onMouseLeave={() => setFilterOptions(false)}
-          className="absolute top-14 left-8 bg-white border w-64 p-4 rounded-lg z-30 shadow-md"
+          className="absolute top-14 left-8 bg-white border w-64 pd-4 rounded-lg z-30 shadow-md"
         >
           <form>
             <div className="flex flex-col space-y-4">
@@ -123,7 +128,7 @@ function KanbanBoard({ Data }) {
       )}
 
       {/* Header */}
-      <header className="flex items-center justify-start bg-white p-2 rounded-md shadow-sm">
+      <header className="flex items-center justify-start bg-white pd-4 rounded-md shadow-md">
         <button
           onClick={toggleOptions}
           className="flex items-center space-x-2 px-4 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-md hover:bg-gray-200"
@@ -137,7 +142,7 @@ function KanbanBoard({ Data }) {
       {/* Main Kanban Board */}
       <main className="main-grid">
       {Object.entries(groupedTickets()).map(([group, tickets]) => (
-        <CategoryTemplate key={group} title={group} tickets={tickets} />
+        <CategoryTemplate users={users} key={group} title={group} tickets={tickets} />
       ))}
     </main>
     </div>

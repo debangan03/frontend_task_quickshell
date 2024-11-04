@@ -1,31 +1,47 @@
-/* TodoCard.css */
-
 .todo-card {
-    background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-top: 0.5rem;
-  }
-  
-  .todo-card-content {
-    padding: 1rem;
-  }
-  
-  .todo-card-id {
-    color: #4B5563; /* gray-600 */
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .todo-card-title {
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .todo-card-tag {
-    color: #4B5563; /* gray-600 */
-    font-size: 0.875rem;
-    margin-right: 0.5rem;
-  }
-  
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  position: relative;
+}
+
+.todo-card-content {
+  padding: 1rem;
+}
+
+.todo-card-id {
+  color: #4B5563; /* gray-600 */
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.todo-card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.todo-card-tag {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: #4B5563; /* gray-600 */
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+}
+
+.user-icon {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  z-index: 10;
+  height: 20px;
+  width: 20px;
+}
+
+.priority-icon {
+  position: absolute;
+  left: 16px;
+}
