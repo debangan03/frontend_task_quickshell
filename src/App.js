@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import KanbanBoard from "./Components/KanbanBoard";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [apiData, setapiData] = useState({});
+  const fetchApi = async () => {
+    // API call logic here
+    const res = await fetch(
+      "https://api.quicksell.co/v1/internal/frontend-assignment"
+    );
+    const data = await res.json();
+    console.log(data);
+    
+    setapiData(data);
+  };
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App min-h-screen max-w-screen bg-slate-200 overflow-x-hidden">
+      <KanbanBoard Data={apiData} />
     </div>
   );
 }
